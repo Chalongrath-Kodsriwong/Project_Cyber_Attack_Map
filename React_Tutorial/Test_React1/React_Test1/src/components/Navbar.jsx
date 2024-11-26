@@ -7,7 +7,7 @@ function Navbar() {
     <>
     <div style={{display: "flex", justifyContent: "space-between", padding: "10px 20px", backgroundColor: "#191919", alignItems: "center"}}>
     <h1 style={{fontSize: "20px"}}>Ruk-Com <p>Cloud</p></h1>
-    <h3 style={{display: "flex", alignItems: "center"}}>Cyber Attacker Map</h3>
+    <h3 style={{display: "flex", alignItems: "center"}}>Cyber Attacker Maps</h3>
     <div className="menu">
       {/* มันคือ tag a */}
         <Link to="/">Home</Link>
