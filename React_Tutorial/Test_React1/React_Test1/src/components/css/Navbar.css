@@ -1,0 +1,28 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+a{
+  font-size: 20px;
+  text-decoration: none;
+  color: white;
+  transition: 0.5s ;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+a:hover{
+  color: rgb(127, 255, 246);
+  background-color: rgb(159, 164, 164);
+  border-radius: 20px;
+  outline: 5px;
+}
+
+.menu{
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
