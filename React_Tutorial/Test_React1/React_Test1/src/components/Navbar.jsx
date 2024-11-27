@@ -1,13 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './css/Navbar.css'
-
+import logo from '../assets/image.png'; 
 function Navbar() {
   return (
     <>
     <div style={{display: "flex", justifyContent: "space-between", padding: "10px 20px", backgroundColor: "#191919", alignItems: "center"}}>
-    <h1 style={{fontSize: "20px"}}>Ruk-Com <p>Cloud</p></h1>
-    
+    <h1 style={{ display: 'flex', alignItems: 'center' }}>
+        <img
+          src={logo}
+          alt="Ruk-Com Logo"
+          style={{ height: '40px', marginRight: '10px' }}
+        /></h1>
+    <h3 style={{display: "flex", alignItems: "center"}}>Cyber Attacker Map</h3>
     <div className="menu">
       {/* มันคือ tag a */}
         <Link to="/">Home</Link>

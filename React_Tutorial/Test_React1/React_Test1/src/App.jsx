@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Analytic from './components/Analytic'
 import Map from './components/Map'
-import Classification from './components/Classification'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,18 +16,8 @@ function App() {
         <Navbar />
         <Routes>
           {/* เส้นทางสำหรับหน้าแรก */}
-          <Route path="/" element={<div className='menu'>
-            <div className="container">
-              <div className="left-size">
-                <Classification />
-                <Classification />
-              </div>
-              <Map />
-              <div className="right-size">
-              <Classification />
-              <Classification />
-              </div>
-            </div>
+          <Route path="/" element={<div>
+            <Map />
           </div>} />
 
           {/* ตั้งเส้นทางที่ตรงกับ /map ไปยังหน้า Map */}
