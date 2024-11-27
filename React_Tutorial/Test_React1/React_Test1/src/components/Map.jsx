@@ -4,6 +4,7 @@ import { feature } from 'topojson-client';
 import topojsonData from '../assets/110m.json'; // Import TopoJSON directly
 import attackersData from '../assets/attackers.json'; // Import attackers JSON
 
+
 const Map = () => {
   const mapRef = useRef();
 
