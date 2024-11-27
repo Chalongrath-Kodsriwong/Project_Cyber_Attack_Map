@@ -2,7 +2,7 @@ import React from 'react'
 
 function Classification() {
   return (
-    <div>Classification</div>
+    <div style={{outline: "1px solid red", padding: "10px"}}>Classification</div>
   )
 }
 

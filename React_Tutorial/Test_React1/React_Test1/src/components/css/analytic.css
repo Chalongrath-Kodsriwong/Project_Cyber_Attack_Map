@@ -1,0 +1,139 @@
+body {
+    background: #1B213B;
+    color: #777;
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container-fluid {
+    max-width: 1980px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto auto; 
+    gap: 20px; 
+    padding: 20px;
+  }
+  
+  .row {
+    margin-bottom: 20px;
+  }
+  
+  .p-3 {
+    padding: 20px;
+    margin-top: 20px;
+    height: 350px;
+    
+    
+  }
+  
+  .box {
+    background-color: #262D47;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .progress {
+    height: 20px;
+    border-radius: 10px;
+    background: #40475D;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: white;
+    background: linear-gradient(90deg, #FF9933 0%, #FFC300 100%);
+  }
+  
+  h6 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #fff;
+  }
+  
+  .chart-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #a79a52;
+  }
+  
+
+  .radialbox {
+    background: linear-gradient(135deg, #262D47 0%, #1B213B 100%);
+  }
+
+  .test {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+
+  .col-md-3,
+.col-sm-6,
+.col-12 {
+  flex: 1 1 calc(25% - 30px); /* Ensure 4 cards in a row with spacing */
+  max-width: calc(25% - 20px);
+  
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .col-md-3 {
+    flex: 1 1 calc(50% - 20px); /* Adjust for tablets */
+    max-width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 576px) {
+  .col-md-3 {
+    flex: 1 1 100%; /* Full width for smaller screens */
+    max-width: 100%;
+  }
+}
+
+.metric-card {
+  padding: 15px;
+  background: linear-gradient(to right, #f7971e, #ff0844); /* Default gradient */
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+  height: 100px; /* Uniform height for all cards */
+}
+
+.metric-card:hover {
+  transform: scale(1.05);
+}
+
+.metric-card h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.metric-card p {
+  font-size: 12px;
+  margin: 0;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.metric-chart {
+  width: 60px;
+  height: 40px;
+}
+
+.D5{
+    height: 100px;
+}

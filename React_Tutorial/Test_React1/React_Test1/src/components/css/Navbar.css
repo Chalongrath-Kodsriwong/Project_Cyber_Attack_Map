@@ -1,28 +1,95 @@
-/* General Styles */
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@400;600;700&display=swap');
+
+/* General reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-a{
-  font-size: 20px;
-  text-decoration: none;
-  color: white;
-  transition: 0.5s ;
-  border-radius: 10px;
-  padding: 5px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a:hover{
-  color: rgb(127, 255, 246);
-  background-color: rgb(159, 164, 164);
-  border-radius: 20px;
-  outline: 5px;
-}
-
-.menu{
+/* Navbar container */
+.navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 50px;
+  padding: 15px 30px;
+  background-color: #191919;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #2a2a2a;
+  font-family: 'Poppins', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Title */
+.navbar h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar h1 p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #00bcd4;
+  margin-top: 5px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Subtitle */
+.navbar h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Menu links */
+.menu {
+  display: flex;
+  gap: 20px;
+}
+
+.menu a {
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #ffffff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  background: linear-gradient(90deg, transparent, transparent);
+  position: relative;
+}
+
+.menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background-color: #00bcd4;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.menu a:hover {
+  color: #00bcd4;
+  background: linear-gradient(90deg, rgba(0, 188, 212, 0.2), rgba(0, 188, 212, 0.2));
+}
+
+.menu a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+h3{
+  color:#ffffff; ;
 }
