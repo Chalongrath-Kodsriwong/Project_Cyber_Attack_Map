@@ -4,3 +4,15 @@
   box-sizing: border-box;
 }
 
+.container{
+  display: flex;
+  align-items: center;
+}
+
+.left-size{
+  display: flex;
+  flex-direction: column;
+  outline: 1px solid red;
+  height: 600px;
+  justify-content: space-between;
+}

@@ -18,15 +18,16 @@ function App() {
         <Routes>
           {/* เส้นทางสำหรับหน้าแรก */}
           <Route path="/" element={<div className='menu'>
-            <div className="left-size">
+            <div className="container">
+              <div className="left-size">
+                <Classification />
+                <Classification />
+              </div>
+              <Map />
+              <div className="right-size">
               <Classification />
               <Classification />
-            </div>
-            <Map />
-            <div className="right-size">
-            <Classification />
-            <Classification />
-
+              </div>
             </div>
           </div>} />
 
