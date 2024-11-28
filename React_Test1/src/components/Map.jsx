@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { feature } from 'topojson-client';
 import topojsonData from '../assets/110m.json'; // Import TopoJSON directly
 import attackersData from '../assets/attackers.json'; // Import attackers JSON
+import './css/Map.css'
 
 const Map = () => {
   const mapRef = useRef();
@@ -95,7 +96,7 @@ const Map = () => {
       });
   }, []);
 
-  return <svg ref={mapRef} style={{ width: '90%', height: '700px' }}></svg>;
+  return <svg ref={mapRef}></svg>;
 };
 
 export default Map;

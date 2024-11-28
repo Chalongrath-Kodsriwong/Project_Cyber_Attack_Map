@@ -20,7 +20,7 @@ html, body {
   justify-content: center;
   outline: 1px solid red;
   width: 100%;
-  height: 100%;
+  height: 93vh;
 }
 
 .Map{
@@ -30,17 +30,18 @@ html, body {
 
 .leftsize{
   background-color: rgba(21, 24, 45, 0.652);
+  outline: 1px solid yellow;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 15rem;
+  gap: 10px;
   z-index: 2;
   position: absolute;
   left: 1px;
+  bottom: 1px;
 }
 
 .rightsize{
   background-color: rgba(21, 24, 45, 0.652);
+  outline: 1px solid purple;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -48,4 +49,52 @@ html, body {
   z-index: 3;
   position: absolute;
   right: 1px;
+}
+
+@media screen and (max-width: 1980px) and (max-height: 1080px){
+  .leftsize{
+    background-color: rgba(21, 24, 45, 0.652);
+    outline: 1px solid yellow;
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+    position: absolute;
+    left: 1px;
+    bottom: 1px;
+  }
+  .rightsize{
+    background-color: rgba(21, 24, 45, 0.652);
+    outline: 1px solid purple;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 13rem;
+    z-index: 3;
+    position: absolute;
+    right: 1px;
+  }
+}
+
+@media screen and (max-width: 1440px) and (max-height: 900px){
+  .rightsize{
+    background-color: rgba(21, 24, 45, 0.652);
+    outline: 1px solid purple;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 13rem;
+    z-index: 3;
+    position: absolute;
+    right: 10px;
+  }
+  .leftsize{
+    background-color: rgba(21, 24, 45, 0.652);
+    outline: 1px solid yellow;
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+    position: absolute;
+    left: 1px;
+    bottom: 1px;
+  }
 }

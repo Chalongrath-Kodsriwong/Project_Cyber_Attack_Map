@@ -22,13 +22,6 @@ function Country_Attack() {
         <li>Thailand</li>
         <li>Thailand</li>
         <li>Thailand</li>
-        <li>Thailand</li>
-        <li>Thailand</li>
-        <li>Thailand</li>
-        <li>Thailand</li>
-        <li>Thailand</li>
-        <li>Thailand</li>
-        <li>Thailand</li>
       </form>
       
     </div>
