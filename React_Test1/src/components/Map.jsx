@@ -95,7 +95,7 @@ const Map = () => {
       });
   }, []);
 
-  return <svg ref={mapRef} style={{ width: '100%', height: '900px' }}></svg>;
+  return <svg ref={mapRef} style={{ width: '90%', height: '700px' }}></svg>;
 };
 
 export default Map;
