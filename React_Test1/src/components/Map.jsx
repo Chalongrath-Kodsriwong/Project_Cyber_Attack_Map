@@ -38,11 +38,11 @@ const Map = () => {
     const renderNewMarkers = (newData, selfLocation) => {
       newData.forEach((entry) => {
         if (processedIds.has(entry.id)) return; // Skip already processed IDs
-
+    
         const { latitude, longitude, type, country, id } = entry;
-
+    
         const [x, y] = projection([longitude, latitude]);
-
+    
         const attackerCircle = svg.append('circle')
           .attr('cx', x)
           .attr('cy', y)
@@ -50,73 +50,98 @@ const Map = () => {
           .attr('fill', type === 'Self' ? 'blue' : type === 'Botnet' ? 'orange' : type === 'Trojan' ? 'yellow' : 'green')
           .attr('stroke', '#fff')
           .attr('stroke-width', 1);
-
+    
         const label = svg.append('text')
           .attr('x', x + 8)
           .attr('y', y + 4)
           .attr('font-size', '10px')
           .attr('fill', 'black')
           .text(country);
-
+    
         if (selfLocation) {
           const [selfX, selfY] = projection(selfLocation);
-
+    
           const lineGenerator = d3.line()
-            .curve(d3.curveBasis);
-
-          const controlPoint = [
-            (x + selfX) / 2,
-            Math.min(y, selfY) - 50,
+            .curve(d3.curveBundle.beta(0.5)); // Use curveBundle for smoother curves
+    
+          const controlPoint1 = [
+            (x + selfX) / 2 + 50,
+            (y + selfY) / 2 - 50,
           ];
-
+    
+          const controlPoint2 = [
+            (x + selfX) / 2 - 50,
+            (y + selfY) / 2 - 100,
+          ];
+    
           const lineData = [
             [x, y],
-            controlPoint,
+            controlPoint1,
+            controlPoint2,
             [selfX, selfY],
           ];
-
+    
+          // Add a gradient to the line
+          const gradientId = `gradient-${id}`;
+          const gradient = svg.append('defs')
+            .append('linearGradient')
+            .attr('id', gradientId)
+            .attr('x1', '0%')
+            .attr('y1', '0%')
+            .attr('x2', '100%')
+            .attr('y2', '100%');
+    
+          gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', 'red');
+    
+          gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', 'orange');
+    
           const line = svg.append('path')
             .datum(lineData)
             .attr('d', lineGenerator)
-            .attr('stroke', 'red')
-            .attr('stroke-width', 2)
+            .attr('stroke', `url(#${gradientId})`) // Use gradient
+            .attr('stroke-width', 3)
             .attr('fill', 'none')
-            .attr('opacity', 1);
-
+            .attr('stroke-dasharray', function () {
+              return this.getTotalLength();
+            })
+            .attr('stroke-dashoffset', function () {
+              return this.getTotalLength();
+            });
+    
           line.transition()
-            .duration(5000)
-            .ease(d3.easeLinear)
-            .attr('stroke-dasharray', line.node().getTotalLength())
-            .attr('stroke-dashoffset', line.node().getTotalLength())
-            .transition()
-            .duration(5000)
+            .duration(3000)
+            .ease(d3.easeCubicInOut) // Smooth easing
             .attr('stroke-dashoffset', 0)
             .on('end', () => {
               line.transition()
-                .duration(1000)
+                .duration(2000)
                 .attr('opacity', 0)
                 .remove();
-
+    
               if (type !== 'Self') {
                 attackerCircle.transition()
-                  .duration(1000)
+                  .duration(2000)
                   .delay(500)
                   .attr('opacity', 0)
                   .remove();
-
+    
                 label.transition()
-                  .duration(1000)
+                  .duration(2000)
                   .delay(500)
                   .attr('opacity', 0)
                   .remove();
               }
             });
         }
-
-        // Add the current ID to processedIds
+    
         setProcessedIds((prev) => new Set(prev).add(id));
       });
     };
+    
 
     fetch('https://ipinfo.io/json')
       .then((response) => response.json())
