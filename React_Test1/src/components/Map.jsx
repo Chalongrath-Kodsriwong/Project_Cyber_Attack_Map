@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { feature } from 'topojson-client';
 import topojsonData from '../assets/110m.json'; // Import TopoJSON directly
 import attackersData from '../assets/attackers.json'; // Import attackers JSON
-import './css/Map.css'
+import './css/Map.css';
 
 const Map = () => {
   const mapRef = useRef();
@@ -35,28 +35,70 @@ const Map = () => {
       .attr('stroke', '#333')
       .attr('stroke-width', 0.5);
 
-    // Function to render markers
-    const renderMarkers = (data) => {
+    // Function to render markers and lines
+    const renderMarkers = (data, selfLocation) => {
+      // Render all markers
       data.forEach((entry) => {
         const { latitude, longitude, type, country, region } = entry;
         const [x, y] = projection([longitude, latitude]);
 
-        // Add a marker
-        svg.append('circle')
+        // Add a marker for each attacker
+        const attackerCircle = svg.append('circle')
           .attr('cx', x)
           .attr('cy', y)
           .attr('r', 5)
-          .attr('fill', type === 'Self' ? 'blue' : type === 'Botnet' ? 'red' : 'orange') // Self = Blue
+          .attr('fill', type === 'Self' ? 'blue' : type === 'Botnet' ? 'orange' : type === 'Trojan' ? 'yellow' : 'green') // Self = Blue
           .attr('stroke', '#fff')
           .attr('stroke-width', 1);
 
-        // Add a label
-        svg.append('text')
+        // Add a label for each attacker
+        const label = svg.append('text')
           .attr('x', x + 8)
           .attr('y', y + 4)
           .attr('font-size', '10px')
           .attr('fill', 'black')
-          .text(`${country}, ${region}`);
+          .text(`${country}`);
+
+        // Draw animated lines from attackers to selfLocation (user)
+        if (selfLocation) {
+          const [selfX, selfY] = projection(selfLocation);
+
+          const line = svg.append('line')
+            .attr('x1', x)
+            .attr('y1', y)
+            .attr('x2', x)
+            .attr('y2', y)
+            .attr('stroke', 'red')
+            .attr('stroke-width', 2)
+            .attr('opacity', 1);
+
+          // Animate the line to the user's location
+          line.transition()
+            .duration(5000) // Animation duration
+            .attr('x2', selfX)
+            .attr('y2', selfY)
+            .on('end', () => {
+              // Fade out the line after animation
+              line.transition()
+                .duration(1000)
+                .attr('opacity', 0)
+                .remove(); // Remove line after fading out
+
+              // Fade out the attacker marker (circle) after line finishes animation, except for 'Self' type
+              if (type !== 'Self') {
+                attackerCircle.transition()
+                  .duration(1000)
+                  .attr('opacity', 0)
+                  .remove(); // Remove the attacker marker after fading out
+
+                // Fade out the label (country name) after marker fades out, except for 'Self' type
+                label.transition()
+                  .duration(1000)
+                  .attr('opacity', 0)
+                  .remove(); // Remove the label after fading out
+              }
+            });
+        }
       });
     };
 
@@ -79,8 +121,8 @@ const Map = () => {
 
         attackersData.push(selfData); // Update attackers data in memory
 
-        // Render all markers
-        renderMarkers(attackersData);
+        // Render all markers and draw lines to the user's location
+        renderMarkers(attackersData, [longitude, latitude]);
 
         // Save updated attackers data to file (requires a backend endpoint)
         fetch('/saveAttackers', {
@@ -92,7 +134,7 @@ const Map = () => {
       .catch((error) => {
         console.error('Error fetching location:', error);
         // Render markers without self-data if fetch fails
-        renderMarkers(attackersData);
+        renderMarkers(attackersData, null);
       });
   }, []);
 
