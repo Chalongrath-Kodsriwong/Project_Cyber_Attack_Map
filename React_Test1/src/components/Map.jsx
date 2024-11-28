@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { feature } from 'topojson-client';
-import topojsonData from '../assets/110m.json'; // Import TopoJSON directly
+import topojsonData from '../assets/110m.json'; // Import TopoJSON
 import attackersData from '../assets/attackers.json'; // Import attackers JSON
 import './css/Map.css';
 
 const Map = () => {
   const mapRef = useRef();
+  const [processedIds, setProcessedIds] = useState(new Set()); // Track processed IDs
 
   useEffect(() => {
     const width = 960;
@@ -22,10 +23,8 @@ const Map = () => {
 
     const path = d3.geoPath().projection(projection);
 
-    // Process the imported TopoJSON data
     const countries = feature(topojsonData, topojsonData.objects.countries);
 
-    // Render the map
     svg.selectAll('path')
       .data(countries.features)
       .enter()
@@ -35,96 +34,109 @@ const Map = () => {
       .attr('stroke', '#333')
       .attr('stroke-width', 0.5);
 
-    // Function to render markers and lines
-    const renderMarkers = (data, selfLocation) => {
-      // Render all markers
-      data.forEach((entry) => {
-        const { latitude, longitude, type, country, region } = entry;
+    // Function to render markers and lines for new data
+    const renderNewMarkers = (newData, selfLocation) => {
+      newData.forEach((entry) => {
+        if (processedIds.has(entry.id)) return; // Skip already processed IDs
+
+        const { latitude, longitude, type, country, id } = entry;
+
         const [x, y] = projection([longitude, latitude]);
 
-        // Add a marker for each attacker
         const attackerCircle = svg.append('circle')
           .attr('cx', x)
           .attr('cy', y)
           .attr('r', 5)
-          .attr('fill', type === 'Self' ? 'blue' : type === 'Botnet' ? 'orange' : type === 'Trojan' ? 'yellow' : 'green') // Self = Blue
+          .attr('fill', type === 'Self' ? 'blue' : type === 'Botnet' ? 'orange' : type === 'Trojan' ? 'yellow' : 'green')
           .attr('stroke', '#fff')
           .attr('stroke-width', 1);
 
-        // Add a label for each attacker
         const label = svg.append('text')
           .attr('x', x + 8)
           .attr('y', y + 4)
           .attr('font-size', '10px')
           .attr('fill', 'black')
-          .text(`${country}`);
+          .text(country);
 
-        // Draw animated lines from attackers to selfLocation (user)
         if (selfLocation) {
           const [selfX, selfY] = projection(selfLocation);
 
-          const line = svg.append('line')
-            .attr('x1', x)
-            .attr('y1', y)
-            .attr('x2', x)
-            .attr('y2', y)
+          const lineGenerator = d3.line()
+            .curve(d3.curveBasis);
+
+          const controlPoint = [
+            (x + selfX) / 2,
+            Math.min(y, selfY) - 50,
+          ];
+
+          const lineData = [
+            [x, y],
+            controlPoint,
+            [selfX, selfY],
+          ];
+
+          const line = svg.append('path')
+            .datum(lineData)
+            .attr('d', lineGenerator)
             .attr('stroke', 'red')
             .attr('stroke-width', 2)
+            .attr('fill', 'none')
             .attr('opacity', 1);
 
-          // Animate the line to the user's location
           line.transition()
-            .duration(5000) // Animation duration
-            .attr('x2', selfX)
-            .attr('y2', selfY)
+            .duration(5000)
+            .ease(d3.easeLinear)
+            .attr('stroke-dasharray', line.node().getTotalLength())
+            .attr('stroke-dashoffset', line.node().getTotalLength())
+            .transition()
+            .duration(5000)
+            .attr('stroke-dashoffset', 0)
             .on('end', () => {
-              // Fade out the line after animation
               line.transition()
                 .duration(1000)
                 .attr('opacity', 0)
-                .remove(); // Remove line after fading out
+                .remove();
 
-              // Fade out the attacker marker (circle) after line finishes animation, except for 'Self' type
               if (type !== 'Self') {
                 attackerCircle.transition()
                   .duration(1000)
+                  .delay(500)
                   .attr('opacity', 0)
-                  .remove(); // Remove the attacker marker after fading out
+                  .remove();
 
-                // Fade out the label (country name) after marker fades out, except for 'Self' type
                 label.transition()
                   .duration(1000)
+                  .delay(500)
                   .attr('opacity', 0)
-                  .remove(); // Remove the label after fading out
+                  .remove();
               }
             });
         }
+
+        // Add the current ID to processedIds
+        setProcessedIds((prev) => new Set(prev).add(id));
       });
     };
 
-    // Load user's current location and update JSON
     fetch('https://ipinfo.io/json')
       .then((response) => response.json())
       .then((data) => {
-        const { ip, loc, country, region } = data;
+        const { ip, loc, country } = data;
         const [latitude, longitude] = loc.split(',').map(Number);
 
-        // Add current user's location to attackers data
         const selfData = {
+          id: 'self', // Use a fixed ID for self
           ip,
           country,
-          region,
           latitude,
           longitude,
           type: 'Self',
         };
 
-        attackersData.push(selfData); // Update attackers data in memory
+        attackersData.push(selfData);
 
-        // Render all markers and draw lines to the user's location
-        renderMarkers(attackersData, [longitude, latitude]);
+        renderNewMarkers(attackersData, [longitude, latitude]);
 
-        // Save updated attackers data to file (requires a backend endpoint)
         fetch('/saveAttackers', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -133,10 +145,9 @@ const Map = () => {
       })
       .catch((error) => {
         console.error('Error fetching location:', error);
-        // Render markers without self-data if fetch fails
-        renderMarkers(attackersData, null);
+        renderNewMarkers(attackersData, null);
       });
-  }, []);
+  }, [processedIds]);
 
   return <svg ref={mapRef}></svg>;
 };
