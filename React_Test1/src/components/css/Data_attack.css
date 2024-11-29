@@ -1,0 +1,85 @@
+.tableContainer {
+    max-height: 300px; /* กำหนดขนาดสูงสุด */
+    overflow-y: auto; /* ทำให้สามารถเลื่อนข้อมูลในแนวตั้งได้ */
+  }
+  
+  .table {
+    display: flex;
+    flex-direction: column; /* ทำให้ข้อมูลจัดเรียงในแนวคอลัมน์ */
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: row; /* ข้อมูลในแถวจะถูกจัดให้อยู่ในแนวนอน */
+    margin: 0; /* ลบช่องว่างระหว่างแถว */
+    background-color: #01082D; /* สีพื้นหลัง */
+    color: white; /* สีตัวอักษร */
+    font-weight: bold;
+    position: sticky; /* กำหนดให้ยึดติด */
+    top: 0; /* ระบุตำแหน่งติดที่ด้านบน */
+    z-index: 1; /* ทำให้ header อยู่เหนือเนื้อหาอื่น */
+  }
+  
+  .header > div, .row > div {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    flex: 1; /* ให้ทุกคอลัมน์มีขนาดเท่ากัน */
+    word-wrap: break-word; /* ให้ข้อความยาวๆ สามารถตัดบรรทัดได้ */
+    min-width: 346px; /* กำหนดขนาดขั้นต่ำ */
+    margin: 0; /* ลบช่องว่างระหว่างคอลัมน์ */
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+  }
+  
+  .row:nth-child(even) {
+    background-color: #00000049;
+  }
+
+.fa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.DataAttacker_log{
+    display: inline-block; /* ใช้ inline-block เพื่อลดการใช้พื้นที่ของแท็ก p */
+    font-size: 14px; /* ปรับขนาดฟอนต์ให้เล็กลง */
+    font-weight: 500;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 8px 12px; /* ลด padding ให้เหมาะสม */
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    background: linear-gradient(90deg, transparent, transparent);
+    position: relative;
+    line-height: 1.5; /* ตั้งค่า line-height ให้เหมาะสมกับขนาดฟอนต์ */
+}
+
+.DataAttacker_log::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0%;
+    height: 2px;
+    background-color: #00bcd4;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.DataAttacker_log:hover {
+    color: #00bcd4;
+    background: linear-gradient(90deg, rgba(0, 188, 212, 0.2), rgba(0, 188, 212, 0.2));
+}
+
+.DataAttacker_log:hover::after {
+    width: 100%;
+    left: 0;
+}
+

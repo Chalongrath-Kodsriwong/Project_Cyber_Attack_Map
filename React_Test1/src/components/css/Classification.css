@@ -1,0 +1,38 @@
+  .Classification {
+    display: inline-block;
+    font-size: 14px; /* ใช้ฟอนต์ขนาดเล็ก */
+    font-weight: 500; /* ความหนาของตัวอักษร */
+    text-decoration: none; /* ลบขีดเส้นใต้ */
+    color: #ffffff; /* สีตัวอักษร */
+    padding: 8px 12px; /* ขนาด padding */
+    border-radius: 5px; /* ขอบโค้งมน */
+    font-family: 'Poppins', sans-serif; /* ใช้ฟอนต์เดียวกัน */
+    transition: all 0.3s ease; /* เพิ่มการเปลี่ยนแปลงที่นุ่มนวล */
+    background: linear-gradient(90deg, transparent, transparent); /* เริ่มต้นโปร่งใส */
+    position: relative;
+    line-height: 1.5; /* ระยะห่างระหว่างบรรทัด */
+    width: 10rem;
+  }
+  
+  .Classification::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%; /* เริ่มต้นตรงกลาง */
+    width: 0%;
+    height: 2px;
+    background-color: #00bcd4; /* เส้นไฮไลต์สีฟ้า */
+    transition: width 0.3s ease, left 0.3s ease; /* เอฟเฟกต์ขยายเส้น */
+  }
+  
+  .Classification:hover {
+    color: #00bcd4; /* เปลี่ยนสีตัวอักษรเมื่อ hover */
+    background: linear-gradient(90deg, rgba(0, 188, 212, 0.2), rgba(0, 188, 212, 0.2)); /* เพิ่มพื้นหลังโปร่งแสง */
+  }
+  
+  .Classification:hover::after {
+    width: 100%; /* ขยายเส้นใต้เต็มความกว้าง */
+    left: 0; /* ขยับเส้นใต้ไปเริ่มจากด้านซ้าย */
+  }
+  
+  
