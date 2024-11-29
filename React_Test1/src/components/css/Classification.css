@@ -35,4 +35,16 @@
     left: 0; /* ขยับเส้นใต้ไปเริ่มจากด้านซ้าย */
   }
   
+.container-item{
+  display: flex;
+  flex-direction: column;
+  outline: 1px solid white;
+}
+
+.container-item p{
+  outline: 1px solid white;
+  color: whitesmoke;
+  font-size: 18px;
+  padding: 6px;
+}
   

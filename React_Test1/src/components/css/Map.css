@@ -1,3 +1,16 @@
+.tooltip {
+  pointer-events: none;
+  position: absolute;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  visibility: hidden;
+  z-index: 10;
+  transition: visibility 0.2s, opacity 0.2s;
+}
+
 @media screen and (max-width: 1980px) and (max-height: 1080px){
     /* .leftsize{
       outline: 1px solid yellow;

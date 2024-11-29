@@ -51,7 +51,7 @@ function Classification() {
   return (
     <div>
       <p className='Classification'>Classification</p>
-      <div style={{padding: "10px 20px" }}>
+      <div className='container-item'>
         {/* แสดงผลประเภทการโจมตีพร้อมจำนวน */}
         <p>DDoS: {attackCounts.DDoS}</p>
         <p>SQL Injection: {attackCounts["SQL Injection"]}</p>
