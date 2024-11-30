@@ -1,7 +1,11 @@
 .tableContainer {
-    max-height: 300px; /* กำหนดขนาดสูงสุด */
-    overflow-y: auto; /* ทำให้สามารถเลื่อนข้อมูลในแนวตั้งได้ */
+    max-height: 250px; /* กำหนดขนาดสูงสุด */
+    overflow-y: scroll; /* ทำให้สามารถเลื่อนข้อมูลในแนวตั้งได้ */
+    /*scrollbar-width: thin;  ปรับขนาด scrollbar (เฉพาะ Firefox) */
+    scrollbar-width: none; /* ปรับขนาด scrollbar (เฉพาะ Firefox) */
+    scrollbar-color: #cfeaec #2a2a2a; /* ปรับสี scrollbar */
   }
+  
   
   .table {
     display: flex;
@@ -21,12 +25,12 @@
   }
   
   .header > div, .row > div {
-    padding: 5px;
+    padding: 10px;
     text-align: center;
     border: 1px solid #ccc;
     flex: 1; /* ให้ทุกคอลัมน์มีขนาดเท่ากัน */
     word-wrap: break-word; /* ให้ข้อความยาวๆ สามารถตัดบรรทัดได้ */
-    min-width: 346px; /* กำหนดขนาดขั้นต่ำ */
+    min-width: 345px; /* กำหนดขนาดขั้นต่ำ */
     margin: 0; /* ลบช่องว่างระหว่างคอลัมน์ */
   }
   
@@ -34,6 +38,7 @@
     display: flex;
     flex-direction: row;
     margin: 0;
+    background-color: rgb(12, 50, 68);
   }
   
   .row:nth-child(even) {
@@ -44,7 +49,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 17px;
+    color: whitesmoke;
 }
 
 .DataAttacker_log{

@@ -14,7 +14,7 @@ const Map = () => {
     const height = 500;
 
     const svg = d3.select(mapRef.current)
-      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('viewBox', `0 40 ${width} ${height}`)
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
     const projection = d3.geoNaturalEarth1()
@@ -33,7 +33,7 @@ const Map = () => {
       .style('padding', '8px')
       .style('background', 'rgba(0, 0, 0, 0.7)')
       .style('color', '#fff')
-      .style('border-radius', '4px')
+      .style('border-radius', '5px')
       .style('visibility', 'hidden')
       .style('font-size', '12px');
 
@@ -48,7 +48,7 @@ const Map = () => {
       .on('mouseover', (event, d) => {
         // Highlight the country
         d3.select(event.currentTarget)
-          .attr('fill', '#ffcc00');
+          .attr('fill', 'rgb(12, 50, 68)');
 
         // Show tooltip with country name
         tooltip.style('visibility', 'visible')
@@ -74,7 +74,7 @@ const Map = () => {
         .attr('cy', y)
         .attr('r', 0)
         .attr('fill', 'none')
-        .attr('stroke', 'blue')
+        .attr('stroke', 'red')
         .attr('stroke-width', 2)
         .attr('opacity', 1);
 
@@ -91,8 +91,8 @@ const Map = () => {
       const blinkCircle = svg.append('circle')
         .attr('cx', x)
         .attr('cy', y)
-        .attr('r', 10)
-        .attr('fill', 'blue')
+        .attr('r', 5)
+        .attr('fill', 'red')
         .attr('opacity', 0.8);
 
       blinkCircle.transition()
@@ -115,6 +115,14 @@ const Map = () => {
         const [x, y] = projection([longitude, latitude]);
 
         const attackerCircle = svg.append('circle')
+          .attr('cx', x)
+          .attr('cy', y)
+          .attr('r', 5)
+          .attr('fill', type === 'Self' ? 'red' : type === 'Botnet' ? 'orange' : type === 'Trojan' ? 'yellow' : 'green')
+          .attr('stroke', '#fff')
+          .attr('stroke-width', 1);
+
+        const attackerCircle2 = svg.append('circle')
           .attr('cx', x)
           .attr('cy', y)
           .attr('r', 5)
@@ -201,6 +209,12 @@ const Map = () => {
                   .ease(d3.easeLinear)
                   .attr('opacity', 0)
                   .remove();
+                  
+                attackerCircle2.transition()
+                  .duration(2000)
+                  .ease(d3.easeLinear)
+                  .attr('opacity', 0)
+                  .remove();
 
                 label.transition()
                   .duration(2000)
@@ -213,6 +227,7 @@ const Map = () => {
                 createRippleEffect(selfX, selfY);
               } else {
                 addBlinkingEffect(selfX, selfY);
+                createRippleEffect(selfX, selfY);
               }
             });
         }
