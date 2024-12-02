@@ -38,6 +38,7 @@
 }
 
 .container-item {
+  transition: opacity 0.5s, margin-bottom 0.5s; /* เพิ่ม transition สำหรับการแสดงผล */
   display: flex;
   flex-direction: column;
   outline: 1px solid white;
@@ -46,6 +47,7 @@
   /*scrollbar-width: thin;  ปรับขนาด scrollbar (เฉพาะ Firefox) */
   scrollbar-width: none; /* ปรับขนาด scrollbar (เฉพาะ Firefox) */
   scrollbar-color: #d6e8eb #2a2a2a; /* ปรับสี scrollbar */
+  background-color: rgba(11, 20, 20, 0.425);
 }
 
 .container-item::-webkit-scrollbar {
@@ -73,3 +75,9 @@
   font-size: 18px;
   padding: 10px;
 }
+
+.container-item p:nth-child(even) {
+  background-color: rgba(11, 20, 20, 0.425);
+}
+
+

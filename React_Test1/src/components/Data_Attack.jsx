@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './css/Data_Attack.css';
-
 // Import attackers.json from src/assets
 import attackersData from '../assets/attackers.json'; // Import attackers JSON
+import $ from 'jquery'; 
+import { setupDataAttackerAnimation } from './JS/data_attackerFun'; 
+// Import ฟังก์ชัน jQuery
 
 function Data_Attack() {
   const [attackers, setAttackers] = useState(attackersData); // Initialize state with imported data
@@ -24,8 +26,12 @@ function Data_Attack() {
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    setupDataAttackerAnimation();
+  }, []);
+
   return (
-    <div>
+    <div className='On_container'>
       <p className='DataAttacker_log'>Data_Attacker_Log</p>
       <div className="tableContainer">
         <div className="table">
