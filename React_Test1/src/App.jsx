@@ -17,6 +17,9 @@ import "./components/JS/data_attackerFun.js"
 function App() {
   const [count, setCount] = useState(0)
 
+
+
+  
   return (
     <Router>  {/* ใช้ Router เพื่อจัดการการนำทาง */}
       <div className="App">
