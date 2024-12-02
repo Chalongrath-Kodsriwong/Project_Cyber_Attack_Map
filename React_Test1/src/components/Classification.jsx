@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './css/Classification.css';
+import $ from 'jquery'; // ต้องติดตั้ง jQuery ผ่าน npm หรือ Yarn
 
 
 function Classification() {
@@ -47,6 +48,23 @@ function Classification() {
 
     return () => clearInterval(intervalId);
   }, []);
+
+
+  
+  // jQuery
+  // ใช้ jQuery สำหรับแสดง/ซ่อนข้อมูล
+  useEffect(() => {
+    $(".Classification").on("click", () => {
+      $(".container-item").slideToggle(300);
+    });
+    // Cleanup เพื่อป้องกันปัญหา event listener ซ้ำซ้อน
+    return () => {
+      $(".Classification").off("click");
+    };
+  }, []);
+
+
+
 
   return (
     <div>
