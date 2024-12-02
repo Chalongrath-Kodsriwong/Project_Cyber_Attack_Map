@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './css/Classification.css';
-import $ from 'jquery'; // ต้องติดตั้ง jQuery ผ่าน npm หรือ Yarn
+import $ from 'jquery'; 
+import { setupClassificationAnimation } from './JS/classification_Fun'; 
+// Import ฟังก์ชัน jQuery
 
 
 function Classification() {
@@ -51,16 +53,9 @@ function Classification() {
 
 
   
-  // jQuery
-  // ใช้ jQuery สำหรับแสดง/ซ่อนข้อมูล
+  // เรียกฟังก์ชัน Animation จาก classification.js
   useEffect(() => {
-    $(".Classification").on("click", () => {
-      $(".container-item").slideToggle(300);
-    });
-    // Cleanup เพื่อป้องกันปัญหา event listener ซ้ำซ้อน
-    return () => {
-      $(".Classification").off("click");
-    };
+    setupClassificationAnimation();
   }, []);
 
 
@@ -68,15 +63,15 @@ function Classification() {
 
   return (
     <div>
-      <p className="Classification">Classification</p>
-      <div className="container-item">
-        <div className="table">
-          <p>DDoS: {attackCounts.DDoS}</p>
-          <p>SQL Injection: {attackCounts["SQL Injection"]}</p>
-          <p>Phishing: {attackCounts.Phishing}</p>
-          <p>Malware: {attackCounts.Malware}</p>
-          <p>Ransomware: {attackCounts.Ransomware}</p>
-          <p>Unknown: {attackCounts.Unknown}</p>
+      <div className="border">
+        <p className="Classification">Classification</p>
+        <div className="container-item">
+            <p>DDoS: {attackCounts.DDoS}</p>
+            <p>SQL Injection: {attackCounts["SQL Injection"]}</p>
+            <p>Phishing: {attackCounts.Phishing}</p>
+            <p>Malware: {attackCounts.Malware}</p>
+            <p>Ransomware: {attackCounts.Ransomware}</p>
+            <p>Unknown: {attackCounts.Unknown}</p>
         </div>
       </div>
     </div>

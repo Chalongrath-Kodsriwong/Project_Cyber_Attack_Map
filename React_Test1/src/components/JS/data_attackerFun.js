@@ -4,6 +4,10 @@ let isHiddens = true; // Tracks visibility of tableContainer
 let isAnimatings = false; // Prevents repeated animations during a single click
 
 export const setupDataAttackerAnimation = () => {
+  $(".DataAttacker_log").css({
+    "z-index": "999",
+    "outline": "1px solid red"
+  })
   $(".DataAttacker_log").click(function () {
     if (isAnimatings) return; // Prevent additional clicks during animation
     isAnimatings = true;
@@ -26,7 +30,10 @@ export const setupDataAttackerAnimation = () => {
         },
         100
       );
-      
+      $(".DataAttacker_log").css({
+        "z-index": "999"
+      })
+      $("")
     } else {
       // Show tableContainer and move DataAttacker_log up
       $(".tableContainer").animate(

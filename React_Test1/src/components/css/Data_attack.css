@@ -4,6 +4,7 @@
     /*scrollbar-width: thin;  ปรับขนาด scrollbar (เฉพาะ Firefox) */
     scrollbar-width: none; /* ปรับขนาด scrollbar (เฉพาะ Firefox) */
     scrollbar-color: #cfeaec #2a2a2a; /* ปรับสี scrollbar */
+    transition: opacity 0.5s ease, margin-bottom 0.5s ease;
   }
   
   
@@ -38,11 +39,11 @@
     display: flex;
     flex-direction: row;
     margin: 0;
-    background-color: rgb(12, 50, 68);
+    background-color: rgba(12, 50, 68, 0.562);
   }
   
   .row:nth-child(even) {
-    background-color: #00000049;
+    background-color: #0000007a;
   }
 
 .fa {
@@ -66,6 +67,7 @@
     background: linear-gradient(90deg, transparent, transparent);
     position: relative;
     line-height: 1.5; /* ตั้งค่า line-height ให้เหมาะสมกับขนาดฟอนต์ */
+    /* outline: 1px solid red; */
 }
 
 .DataAttacker_log::after {
