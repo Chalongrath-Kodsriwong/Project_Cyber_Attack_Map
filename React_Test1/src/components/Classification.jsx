@@ -72,6 +72,10 @@ function Classification() {
             <p>Malware: {attackCounts.Malware}</p>
             <p>Ransomware: {attackCounts.Ransomware}</p>
             <p>Unknown: {attackCounts.Unknown}</p>
+            <p>Unknown: {attackCounts.Unknown}</p>
+            <p>Unknown: {attackCounts.Unknown}</p>
+            <p>Unknown: {attackCounts.Unknown}</p>
+            <p>Unknown: {attackCounts.Unknown}</p>
         </div>
       </div>
     </div>

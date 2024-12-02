@@ -22,7 +22,7 @@ export const setupClassificationAnimation = () => {
       );
       $(".Classification").animate(
         {
-          marginTop: "247px",
+          marginTop: "237px",
         },
         100
       );
