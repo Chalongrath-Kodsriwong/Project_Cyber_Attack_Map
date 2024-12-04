@@ -68,17 +68,6 @@
     "time": "2024-11-30T01:00:00Z",
     "target": "Ruk-com ZA"
   }
-  ,
-  {
-    "id": "7",
-    "ip": "192.0.2.12",
-    "country": "South Africa",
-    "region": "Johannesburg",
-    "latitude": -26.2041,
-    "longitude": 28.0473,
-    "type": "Phishing",
-    "time": "2024-11-30T01:00:00Z",
-    "target": "Ruk-com ZA"
-  }
+  
   
 ]
