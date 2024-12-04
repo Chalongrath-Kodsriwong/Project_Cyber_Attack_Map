@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { feature } from "topojson-client";
-import topojsonData from "../assets/110m.json";
-import attackersData from "../assets/attackers.json";
+import topojsonData from "../assets/110m.json"; // Import TopoJSON
+import attackersData from "../assets/attackers.json"; // Import attackers JSON
 import "./css/Map.css";
 
 const Map = () => {
@@ -11,12 +11,12 @@ const Map = () => {
   const [lineDrawn, setLineDrawn] = useState(false); // Track if a line has been drawn to self location
 
   useEffect(() => {
-    const width = 1000;
-    const height = 300;
+    const width = 960;
+    const height = 500;
 
     const svg = d3
       .select(mapRef.current)
-      .attr("viewBox", `0 50 ${width} ${height}`)
+      .attr("viewBox", `0 40 ${width} ${height}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
     const projection = d3
@@ -32,7 +32,8 @@ const Map = () => {
     svg
       .selectAll("path")
       .data(countries.features)
-      .join("path")
+      .enter()
+      .append("path")
       .attr("d", path)
       .attr("fill", "#f5f5f5") // Light white/gray for landmass
       .attr("stroke", "#000") // Lighter gray for country borders
