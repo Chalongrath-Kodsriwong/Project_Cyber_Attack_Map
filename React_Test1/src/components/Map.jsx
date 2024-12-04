@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { feature } from "topojson-client";
-import topojsonData from "../assets/110m.json"; // Import TopoJSON
-import attackersData from "../assets/attackers.json"; // Import attackers JSON
+import topojsonData from "../assets/110m.json";
+import attackersData from "../assets/attackers.json";
 import "./css/Map.css";
 
 const Map = () => {
   const mapRef = useRef();
-  const [processedIds, setProcessedIds] = useState(new Set()); // Track processed IDs
+  const [processedIds, setProcessedIds] = useState(new Set());
 
   useEffect(() => {
-    const width = 960;
-    const height = 500;
+    const width = 1000;
+    const height = 300;
 
     const svg = d3
       .select(mapRef.current)
-      .attr("viewBox", `0 40 ${width} ${height}`)
+      .attr("viewBox", `0 50 ${width} ${height}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
     const projection = d3
@@ -27,284 +27,93 @@ const Map = () => {
 
     const countries = feature(topojsonData, topojsonData.objects.countries);
 
-    // Create a tooltip for country names
-    const tooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("position", "absolute")
-      .style("padding", "8px")
-      .style("background", "rgba(0, 0, 0, 0.7)")
-      .style("color", "#fff")
-      .style("border-radius", "5px")
-      .style("visibility", "hidden")
-      .style("font-size", "12px");
-
+    // Draw the map once
     svg
       .selectAll("path")
       .data(countries.features)
-      .enter()
-      .append("path")
+      .join("path")
       .attr("d", path)
-      .attr("fill", "#d3d3d3")
-      .attr("stroke", "#333")
-      .attr("stroke-width", 0.5)
-      .on("mouseover", (event, d) => {
-        // Highlight the country
-        d3.select(event.currentTarget).attr("fill", "rgb(12, 50, 68)");
+      .attr("fill", "#f5f5f5")
+      .attr("stroke", "black")
+      .attr("stroke-width", 0.5);
 
-        // Show tooltip with country name
-        tooltip.style("visibility", "visible").text(d.properties.name); // Display the country's name
-      })
-      .on("mousemove", (event) => {
-        // Move the tooltip to follow the mouse
-        tooltip
-          .style("top", `${event.pageY - 10}px`)
-          .style("left", `${event.pageX + 10}px`);
-      })
-      .on("mouseout", (event) => {
-        // Reset country color and hide tooltip
-        d3.select(event.currentTarget).attr("fill", "#d3d3d3");
+    const renderMarkers = (data, selfLocation) => {
+      const newEntries = data.filter((entry) => !processedIds.has(entry.id));
 
-        tooltip.style("visibility", "hidden");
+      // Mark IDs as processed
+      setProcessedIds((prev) => {
+        const updated = new Set(prev);
+        newEntries.forEach((entry) => updated.add(entry.id));
+        return updated;
       });
 
-    // Function to create Ripple Effect
-    const createRippleEffect = (x, y) => {
-      const ripple = svg
-        .append("circle")
-        .attr("cx", x)
-        .attr("cy", y)
-        .attr("r", 0)
-        .attr("fill", "none")
-        .attr("stroke", "red")
-        .attr("stroke-width", 2)
-        .attr("opacity", 1);
+      const markers = svg.selectAll(".marker").data(newEntries, (d) => d.id);
 
-      ripple
-        .transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .attr("r", 30) // Expand circle
-        .attr("opacity", 0) // Fade out
-        .remove();
-    };
-
-    // Function to add blinking effect at self-location
-    const addBlinkingEffect = (x, y) => {
-      const blinkCircle = svg
+      // Add new markers
+      markers
+        .enter()
         .append("circle")
-        .attr("cx", x)
-        .attr("cy", y)
+        .attr("class", "marker")
         .attr("r", 5)
-        .attr("fill", "red")
-        .attr("opacity", 0.8);
+        .attr("cx", (d) => projection([d.longitude, d.latitude])[0])
+        .attr("cy", (d) => projection([d.longitude, d.latitude])[1])
+        .attr("fill", (d) =>
+          d.type === "Botnet"
+            ? "orange"
+            : d.type === "Trojan"
+            ? "yellow"
+            : d.type === "Self"
+            ? "red"
+            : "green"
+        )
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1);
 
-      blinkCircle
-        .transition()
-        .duration(500)
-        .ease(d3.easeLinear)
-        .attr("opacity", 0)
-        .transition()
-        .duration(500)
-        .attr("opacity", 0.8)
-        .on("end", () => blinkCircle.remove()); // Remove circle after blinking
+      // Draw lines to selfLocation
+      if (selfLocation) {
+        const [selfX, selfY] = projection(selfLocation);
+
+        svg
+          .selectAll(".line")
+          .data(newEntries.filter((d) => d.type !== "Self"))
+          .enter()
+          .append("line")
+          .attr("class", "line")
+          .attr("x1", (d) => projection([d.longitude, d.latitude])[0])
+          .attr("y1", (d) => projection([d.longitude, d.latitude])[1])
+          .attr("x2", selfX)
+          .attr("y2", selfY)
+          .attr("stroke", "orange")
+          .attr("stroke-width", 2)
+          .attr("stroke-dasharray", "5,5");
+      }
     };
 
-    // Function to render markers and lines for new data
-    const renderNewMarkers = (newData, selfLocation) => {
-      newData.forEach((entry) => {
-        if (processedIds.has(entry.id)) return; // Skip already processed IDs
-
-        const { latitude, longitude, type, country, id } = entry;
-
-        const [x, y] = projection([longitude, latitude]);
-
-        const attackerCircle = svg
-          .append("circle")
-          .attr("cx", x)
-          .attr("cy", y)
-          .attr("r", 5)
-          .attr(
-            "fill",
-            type === "Self"
-              ? "red"
-              : type === "Botnet"
-              ? "orange"
-              : type === "Trojan"
-              ? "yellow"
-              : "green"
-          )
-          .attr("stroke", "#fff")
-          .attr("stroke-width", 1);
-
-        const attackerCircle2 = svg
-          .append("circle")
-          .attr("cx", x)
-          .attr("cy", y)
-          .attr("r", 5)
-          .attr(
-            "fill",
-            type === "Self"
-              ? "blue"
-              : type === "Botnet"
-              ? "orange"
-              : type === "Trojan"
-              ? "yellow"
-              : "green"
-          )
-          .attr("stroke", "#fff")
-          .attr("stroke-width", 1);
-
-        const label = svg
-          .append("text")
-          .attr("x", x + 8)
-          .attr("y", y + 4)
-          .attr("font-size", "10px")
-          .attr("fill", "black")
-          .text(country);
-
-        if (selfLocation) {
-          const [selfX, selfY] = projection(selfLocation);
-
-          const lineGenerator = d3.line().curve(d3.curveBundle.beta(0.5)); // Use curveBundle for smoother curves
-
-          const controlPoint1 = [(x + selfX) / 2 + 50, (y + selfY) / 2 - 50];
-
-          const controlPoint2 = [(x + selfX) / 2 - 50, (y + selfY) / 2 - 100];
-
-          const lineData = [
-            [x, y],
-            controlPoint1,
-            controlPoint2,
-            [selfX, selfY],
-          ];
-
-          const gradientId = `gradient-${id}`;
-          const gradient = svg
-            .append("defs")
-            .append("linearGradient")
-            .attr("id", gradientId)
-            .attr("x1", "0%")
-            .attr("y1", "0%")
-            .attr("x2", "100%")
-            .attr("y2", "100%");
-
-          // Determine the line color based on the type
-          // = type === 'Self' ? 'red'
-          const lineColor =
-            type === "Botnet"
-              ? "orange"
-              : type === "Trojan"
-              ? "yellow"
-              : "green";
-
-          gradient
-            .append("stop")
-            .attr("offset", "0%")
-            .attr("stop-color", lineColor) // Start color matches the point color
-            .attr("stop-opacity", 0.5);
-
-          gradient
-            .append("stop")
-            .attr("offset", "100%")
-            .attr("stop-color", lineColor) // End color fades to black
-            .attr("stop-opacity", 1); // Adjust opacity if needed
-
-          const line = svg
-            .append("path")
-            .datum(lineData)
-            .attr("d", lineGenerator)
-            .attr("stroke", `url(#${gradientId})`)
-            .attr("stroke-width", 3)
-            .attr("fill", "none")
-            .attr("stroke-dasharray", function () {
-              return this.getTotalLength();
-            })
-            .attr("stroke-dashoffset", function () {
-              return this.getTotalLength();
-            });
-
-          line
-            .transition()
-            .duration(3000)
-            .ease(d3.easeCubicInOut)
-            .attr("stroke-dashoffset", 0)
-            .on("end", () => {
-              line
-                .transition()
-                .duration(2000)
-                .ease(d3.easeLinear)
-                .attr("opacity", 0)
-                .remove();
-
-              if (type !== "Self") {
-                attackerCircle
-                  .transition()
-                  .duration(2000)
-                  .ease(d3.easeLinear)
-                  .attr("opacity", 0)
-                  .remove();
-
-                attackerCircle2
-                  .transition()
-                  .duration(2000)
-                  .ease(d3.easeLinear)
-                  .attr("opacity", 0)
-                  .remove();
-
-                label
-                  .transition()
-                  .duration(2000)
-                  .ease(d3.easeLinear)
-                  .attr("opacity", 0)
-                  .remove();
-              }
-
-              if (type === "Self") {
-                createRippleEffect(selfX, selfY);
-              } else {
-                addBlinkingEffect(selfX, selfY);
-                createRippleEffect(selfX, selfY);
-              }
-            });
-        }
-
-        setProcessedIds((prev) => new Set(prev).add(id));
-      });
-    };
-
-    fetch("https://ipinfo.io/json")
-      .then((response) => response.json())
-      .then((data) => {
-        const { ip, loc, country } = data;
-        const [latitude, longitude] = loc.split(",").map(Number);
-
+    const fetchSelfLocation = async () => {
+      try {
+        const response = await fetch("http://www.geoplugin.net/json.gp");
+        const data = await response.json();
         const selfData = {
           id: "self",
-          ip,
-          country,
-          latitude,
-          longitude,
+          ip: data.geoplugin_request || "Unknown IP",
+          country: data.geoplugin_countryName || "Unknown Country",
+          latitude: parseFloat(data.geoplugin_latitude) || 0,
+          longitude: parseFloat(data.geoplugin_longitude) || 0,
           type: "Self",
         };
 
-        attackersData.push(selfData);
+        // Add self marker first
+        renderMarkers([selfData], [selfData.longitude, selfData.latitude]);
 
-        renderNewMarkers(attackersData, [longitude, latitude]);
+        // Add remaining markers
+        renderMarkers(attackersData, [selfData.longitude, selfData.latitude]);
+      } catch (error) {
+        console.error("Error fetching self location:", error);
+        renderMarkers(attackersData, null);
+      }
+    };
 
-        fetch("/saveAttackers", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(attackersData),
-        }).catch((error) =>
-          console.error("Error saving attackers data:", error)
-        );
-      })
-      .catch((error) => {
-        console.error("Error fetching location:", error);
-        renderNewMarkers(attackersData, null);
-      });
+    fetchSelfLocation();
   }, [processedIds]);
 
   return <svg ref={mapRef}></svg>;

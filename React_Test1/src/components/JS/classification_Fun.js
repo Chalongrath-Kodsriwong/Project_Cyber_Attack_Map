@@ -10,40 +10,46 @@ export const setupClassificationAnimation = () => {
 
     if (isHidden) {
       // Hide container-item and move Classification down
-      $(".container-item").animate(
+      // $(".container-item").animate(
+      //   {
+      //     marginBottom: "-100px",
+      //     opacity: 0,
+      //   },
+      //   1000,
+      //   () => {
+      //     isAnimating = false; // Allow new animation after completion
+      //   }
+      // );
+      $(".Classification").animate(
         {
-          marginBottom: "-100px",
-          opacity: 0,
+          marginTop: "240px",
         },
-        100,
+        1000,
         () => {
           isAnimating = false; // Allow new animation after completion
         }
-      );
-      $(".Classification").animate(
-        {
-          marginTop: "237px",
-        },
-        100
       );
     } else {
       // Show container-item and move Classification up
-      $(".container-item").animate(
-        {
-          marginBottom: "0px",
-          opacity: 1,
-          transition: "0.3s"
-        },
-        10,
-        () => {
-          isAnimating = false; // Allow new animation after completion
-        }
-      );
+      // $(".container-item").animate(
+      //   {
+      //     marginBottom: "0px",
+      //     opacity: 1,
+      //     transition: "0.3s"
+      //   },
+      //   1000,
+      //   () => {
+      //     isAnimating = false; // Allow new animation after completion
+      //   }
+      // );
       $(".Classification").animate(
         {
           marginTop: "0px",
         },
-        100
+        1000,
+        () => {
+          isAnimating = false; // Allow new animation after completion
+        }
       );
     }
 
