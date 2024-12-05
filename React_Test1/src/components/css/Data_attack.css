@@ -1,5 +1,5 @@
 .tableContainer {
-    max-height: 250px; /* กำหนดขนาดสูงสุด */
+    max-height: 235px; /* กำหนดขนาดสูงสุด */
     overflow-y: scroll; /* ทำให้สามารถเลื่อนข้อมูลในแนวตั้งได้ */
     /*scrollbar-width: thin;  ปรับขนาด scrollbar (เฉพาะ Firefox) */
     scrollbar-width: none; /* ปรับขนาด scrollbar (เฉพาะ Firefox) */
@@ -68,6 +68,7 @@
     position: relative;
     line-height: 1.5; /* ตั้งค่า line-height ให้เหมาะสมกับขนาดฟอนต์ */
     /* outline: 1px solid red; */
+    cursor: pointer;
 }
 
 .DataAttacker_log::after {
@@ -91,3 +92,16 @@
     left: 0;
 }
 
+@media screen and (max-width: 1440px) and (max-height: 900px){
+  
+  .header > div, .row > div {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    flex: 1; /* ให้ทุกคอลัมน์มีขนาดเท่ากัน */
+    word-wrap: break-word; /* ให้ข้อความยาวๆ สามารถตัดบรรทัดได้ */
+    min-width: 250px; /* กำหนดขนาดขั้นต่ำ */
+    margin: 0; /* ลบช่องว่างระหว่างคอลัมน์ */
+  }
+
+}
