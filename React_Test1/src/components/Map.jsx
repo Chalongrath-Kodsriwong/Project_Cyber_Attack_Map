@@ -99,7 +99,7 @@ const Map = () => {
         }
 
         // Add markers and labels for attackers
-        svg
+        const marker = svg
           .append("circle")
           .attr("cx", x)
           .attr("cy", y)
@@ -108,13 +108,35 @@ const Map = () => {
           .attr("stroke", "#fff")
           .attr("stroke-width", 1);
 
-        svg
+        // Apply fade-out transition to non-self markers
+        if (entry.id !== "self") {
+          marker
+            .transition()
+            .duration(5000) // Fade out duration
+            .style("opacity", 0)
+            .on("end", function () {
+              d3.select(this).remove(); // Remove the marker after fading out
+            });
+        }
+
+        const text = svg
           .append("text")
           .attr("x", x + 10)
           .attr("y", y + 5)
           .attr("font-size", "12px")
           .attr("fill", "black")
           .text(country || "Unknown Country");
+
+        // Apply fade-out transition to non-self markers
+        if (entry.id !== "self") {
+          text
+            .transition()
+            .duration(3000) // Fade out duration
+            .style("opacity", 0)
+            .on("end", function () {
+              d3.select(this).remove(); // Remove the label after fading out
+            });
+        }
 
         // Mark this ID as processed to avoid duplication
         setProcessedIds((prev) => new Set(prev).add(id));
