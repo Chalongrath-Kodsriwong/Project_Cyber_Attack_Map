@@ -1,14 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { feature } from "topojson-client";
-import topojsonData from "../assets/110m.json"; // Import TopoJSON
-import attackersData from "../assets/attackers.json"; // Import attackers JSON
+import topojsonData from "../assets/110m.json";
+import attackersData from "../assets/attackers.json";  // นำเข้าไฟล์ attackers.json
 import "./css/Map.css";
 
 const Map = () => {
   const mapRef = useRef();
-  const [processedIds, setProcessedIds] = useState(new Set()); // Track processed IDs
-  const [lineDrawn, setLineDrawn] = useState(false); // Track if a line has been drawn to self location
+  const [userLocation, setUserLocation] = useState(null);
+
+  // ใช้ Geolocation API เพื่อดึงตำแหน่งของผู้ใช้
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert("Unable to fetch your location. Please enable location services.");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by your browser.");
+    }
+  }, []);
 
   useEffect(() => {
     const width = 960;
@@ -25,198 +42,82 @@ const Map = () => {
       .translate([width / 2, height / 2]);
 
     const path = d3.geoPath().projection(projection);
-
     const countries = feature(topojsonData, topojsonData.objects.countries);
 
-    // Draw countries on the map
+    // วาดแผนที่
     svg
       .selectAll("path")
       .data(countries.features)
       .enter()
       .append("path")
       .attr("d", path)
-      .attr("fill", "#f5f5f5") // Light white/gray for landmass
-      .attr("stroke", "#000") // Lighter gray for country borders
+      .attr("fill", "#e0e0e0")
+      .attr("stroke", "#000")
       .attr("stroke-width", 0.5);
 
-    const renderNewMarkers = (newData, selfLocation) => {
-      newData.forEach((entry) => {
-        // Skip entries that have already been processed
-        if (processedIds.has(entry.id)) return;
+    // แสดงตำแหน่งผู้ใช้บนแผนที่
+    if (userLocation) {
+      const [x, y] = projection([userLocation.longitude, userLocation.latitude]);
+      svg
+        .append("circle")
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("r", 6)
+        .attr("fill", "blue")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5);
 
-        const { latitude, longitude, id, type, country } = entry;
-        if (!latitude || !longitude) return; // Skip invalid data
-        const [x, y] = projection([longitude, latitude]);
+      svg
+        .append("text")
+        .attr("x", x + 10)
+        .attr("y", y)
+        .attr("font-size", "12px")
+        .attr("fill", "black")
+        .text("You are here");
+    }
 
-        // If self location is available, draw lines
-        if (selfLocation) {
-          const [selfX, selfY] = projection(selfLocation);
-          const lineColor = getColorByType(type);
+    // แสดงตำแหน่งจาก attackers.json
+    attackersData.forEach((attacker) => {
+      const { _source } = attacker;
+      const { GeoLocation } = _source;
 
-          // Define a curved path (arc) between the points
-          const curve = d3
-            .line()
-            .x((d) => d[0])
-            .y((d) => d[1])
-            .curve(d3.curveBasis); // Smooth curve
+      // ตรวจสอบว่ามีค่าพิกัดหรือไม่
+      if (GeoLocation && GeoLocation.location) {
+        const { lat, lon } = GeoLocation.location;
+        const [x, y] = projection([lon, lat]);
 
-          const midX = (x + selfX) / 2; // Midpoint for curvature
-          const midY = (y + selfY) / 2 - 50; // Elevate midpoint for arc
-
-          const lineData = [
-            [x, y],
-            [midX, midY],
-            [selfX, selfY],
-          ];
-
-          // Add animated curved line
-          svg
-            .append("path")
-            .datum(lineData)
-            .attr("d", curve)
-            .attr("stroke", lineColor) // Line color based on type
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
-            .attr("stroke-linecap", "round") // Rounded line ends
-            .attr("stroke-dasharray", function () {
-              return this.getTotalLength();
-            })
-            .attr("stroke-dashoffset", function () {
-              return this.getTotalLength();
-            })
-            .transition()
-            .duration(3000)
-            .ease(d3.easeQuadInOut)
-            .attr("stroke-dashoffset", 0)
-            .style("opacity", 0)
-            .on("end", function () {
-              // Remove the line immediately after animation
-              d3.select(this).remove();
-
-              // After the line reaches the self-location, trigger the notification ring
-              setLineDrawn(true);
-            });
+        // ใช้สีต่างๆ ตามระดับความรุนแรงหรือประเภทการโจมตี
+        let color;
+        switch (_source.rule.description) {
+          case "IPDB Block ip":
+            color = "red";
+            break;
+          // เพิ่มเงื่อนไขอื่นๆ ตามที่คุณต้องการ
+          default:
+            color = "gray";
         }
 
-        // Add markers and labels for attackers
-        const marker = svg
+        // วาดวงกลมสำหรับ attackers
+        svg
           .append("circle")
           .attr("cx", x)
           .attr("cy", y)
-          .attr("r", 5)
-          .attr("fill", getColorByType(type))
+          .attr("r", 6)
+          .attr("fill", color)
           .attr("stroke", "#fff")
-          .attr("stroke-width", 1);
+          .attr("stroke-width", 1.5);
 
-        // Apply fade-out transition to non-self markers
-        if (entry.id !== "self") {
-          marker
-            .transition()
-            .duration(5000) // Fade out duration
-            .style("opacity", 0)
-            .on("end", function () {
-              d3.select(this).remove(); // Remove the marker after fading out
-            });
-        }
-
-        const text = svg
+        // แสดงชื่อประเทศจาก GeoLocation
+        svg
           .append("text")
           .attr("x", x + 10)
-          .attr("y", y + 5)
+          .attr("y", y)
           .attr("font-size", "12px")
           .attr("fill", "black")
-          .text(country || "Unknown Country");
-
-        // Apply fade-out transition to non-self markers
-        if (entry.id !== "self") {
-          text
-            .transition()
-            .duration(3000) // Fade out duration
-            .style("opacity", 0)
-            .on("end", function () {
-              d3.select(this).remove(); // Remove the label after fading out
-            });
-        }
-
-        // Mark this ID as processed to avoid duplication
-        setProcessedIds((prev) => new Set(prev).add(id));
-      });
-
-      // Add a notification ring around the self-location marker only after the line has been drawn
-      if (selfLocation && lineDrawn) {
-        const [selfX, selfY] = projection(selfLocation);
-
-        // Add the notification ring (pulsing effect)
-        svg
-          .append("circle")
-          .attr("cx", selfX)
-          .attr("cy", selfY)
-          .attr("r", 8)
-          .attr("stroke", "red")
-          .attr("stroke-width", 2)
-          .attr("fill", "none")
-          .attr("class", "notification-ring") // Use class to apply CSS animation
-          .transition()
-          .duration(1000)
-          .ease(d3.easeLinear)
-          .attr("r", 12)
-          .style("opacity", 0)
-          .transition()
-          .duration(0)
-          .ease(d3.easeLinear)
-          .attr("r", 8)
-          .style("opacity", 1)
-          .on("end", function () {
-            d3.select(this).transition().duration(1000).ease(d3.easeLinear).attr("r", 12).style("opacity", 0);
-          });
+          .text(GeoLocation.country_name || "Unknown");
       }
-    };
-
-    // Function to get color based on type
-    const getColorByType = (type) => {
-      switch (type) {
-        case "Botnet":
-          return "blue";
-        case "Trojan":
-          return "green";
-        case "Self":
-          return "red";
-        default:
-          return "orange";
-      }
-    };
-
-    // Fetch self location first to display it
-    fetch("http://www.geoplugin.net/json.gp")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const { geoplugin_request, geoplugin_latitude, geoplugin_longitude, geoplugin_countryName } = data;
-
-        const selfData = {
-          id: "self",
-          ip: geoplugin_request || "Unknown IP",
-          country: geoplugin_countryName || "Unknown Country",
-          latitude: parseFloat(geoplugin_latitude) || 0,
-          longitude: parseFloat(geoplugin_longitude) || 0,
-          type: "Self",
-        };
-
-        // Add self data to attackersData and render it first
-        attackersData.unshift(selfData); // Insert at the beginning
-
-        // Render self location first before others
-        renderNewMarkers(attackersData, [selfData.longitude, selfData.latitude]);
-      })
-      .catch((error) => {
-        console.error("Error fetching location:", error);
-        renderNewMarkers(attackersData, null);
-      });
-  }, [processedIds, lineDrawn]);
+    });
+  }, [userLocation]);
 
   return <svg ref={mapRef}></svg>;
 };

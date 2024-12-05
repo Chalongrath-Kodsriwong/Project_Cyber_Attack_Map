@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './css/Classification.css';
-import $ from 'jquery'; 
-import { setupClassificationAnimation } from './JS/classification_Fun'; 
-// Import ฟังก์ชัน jQuery
-
+import { setupClassificationAnimation } from './JS/classification_Fun';
 
 function Classification() {
   const [attackCounts, setAttackCounts] = useState({
-    DDoS: 0,
-    "SQL Injection": 0,
-    Phishing: 0,
-    Malware: 0,
-    Ransomware: 0,
+    "IPDB Block ip": 0,
+    "SSH Brute Force Attack": 0,
+    "HTTP DoS Attack": 0,
     Unknown: 0,
   });
 
@@ -21,18 +16,17 @@ function Classification() {
         .then((response) => response.json())
         .then((data) => {
           const initialCounts = {
-            DDoS: 0,
-            "SQL Injection": 0,
-            Phishing: 0,
-            Malware: 0,
-            Ransomware: 0,
+            "IPDB Block ip": 0,
+            "SSH Brute Force Attack": 0,
+            "HTTP DoS Attack": 0,
             Unknown: 0,
           };
 
           const counts = data.reduce((acc, attacker) => {
-            const type = attacker.type || "Unknown";
-            if (acc[type] !== undefined) {
-              acc[type] += 1;
+            const description =
+              attacker._source?.rule?.description || "Unknown";
+            if (acc[description] !== undefined) {
+              acc[description] += 1;
             } else {
               acc.Unknown += 1;
             }
@@ -41,41 +35,34 @@ function Classification() {
 
           setAttackCounts(counts);
         })
-        .catch((error) => console.error('Error fetching attackers data:', error));
+        .catch((error) =>
+          console.error('Error fetching attackers data:', error)
+        );
     };
 
+    // Fetch attackers data initially
     fetchAttackers();
 
+    // Fetch attackers data every 1 second
     const intervalId = setInterval(fetchAttackers, 1000);
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId); // Cleanup interval
   }, []);
 
-
-  
   // เรียกฟังก์ชัน Animation จาก classification.js
   useEffect(() => {
     setupClassificationAnimation();
   }, []);
-
-
-
 
   return (
     <div>
       <div className="border">
         <p className="Classification">Classification</p>
         <div className="container-item">
-            <p>DDoS: {attackCounts.DDoS}</p>
-            <p>SQL Injection: {attackCounts["SQL Injection"]}</p>
-            <p>Phishing: {attackCounts.Phishing}</p>
-            <p>Malware: {attackCounts.Malware}</p>
-            <p>Ransomware: {attackCounts.Ransomware}</p>
-            <p>Unknown: {attackCounts.Unknown}</p>
-            <p>Unknown: {attackCounts.Unknown}</p>
-            <p>Unknown: {attackCounts.Unknown}</p>
-            <p>Unknown: {attackCounts.Unknown}</p>
-            <p>Unknown: {attackCounts.Unknown}</p>
+          <p>IPDB Block ip: {attackCounts["IPDB Block ip"]}</p>
+          <p>SSH Brute Force Attack: {attackCounts["SSH Brute Force Attack"]}</p>
+          <p>HTTP DoS Attack: {attackCounts["HTTP DoS Attack"]}</p>
+          <p>Unknown: {attackCounts.Unknown}</p>
         </div>
       </div>
     </div>

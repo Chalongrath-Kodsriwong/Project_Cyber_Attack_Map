@@ -1,83 +1,200 @@
 [
   {
-    "id": "1",
-    "ip": "192.168.1.1",
-    "latitude": 37.7749,
-    "longitude": -122.4194,
-    "type": "Botnet",
-    "country": "United States",
-    "region": "California",
-    "time": "2024-11-29T12:00:00Z",
-    "target": "Ruk-com TH"
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "Xw9QlZMB-tjR-GZRWCDI",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "th224",
+        "program_name": "kernel",
+        "timestamp": "Dec  5 12:34:50"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "103.86.51.224",
+        "name": "th224.ruk-com.in.th",
+        "id": "031"
+      },
+      "data": {
+        "srcip": "83.222.191.186"
+      },
+      "manager": {
+        "name": "wazuh-manager-1"
+      },
+      "rule": {
+        "firedtimes": 271933,
+        "mail": false,
+        "level": 9,
+        "description": "IPDB Block ip",
+        "groups": [
+          "kernel",
+          " ipdb"
+        ],
+        "id": "100010"
+      },
+      "decoder": {
+        "parent": "kernel",
+        "name": "kernel"
+      },
+      "full_log": "Dec  5 12:34:50 th224 kernel: IPDB Blocked: IN=ens4 OUT= MAC=fa:16:3e:56:6f:08:02:00:01:06:ff:ff:08:00 SRC=83.222.191.186 DST=103.86.51.224 LEN=60 TOS=0x00 PREC=0x00 TTL=51 ID=34855 DF PROTO=TCP SPT=40606 DPT=587 WINDOW=29200 RES=0x00 SYN URGP=0 ",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/messages",
+      "id": "1733376890.1637802963",
+      "GeoLocation": {
+        "city_name": "Sofia",
+        "country_name": "Bulgaria",
+        "region_name": "Sofia-Capital",
+        "location": {
+          "lon": 23.3175,
+          "lat": 42.683
+        }
+      },
+      "timestamp": "2024-12-05T05:34:50.939+0000"
+    },
+    "fields": {
+      "timestamp": [
+        "2024-12-05T05:34:50.939Z"
+      ]
+    },
+    "sort": [
+      1733376890939
+    ]
   },
   {
-    "id": "2",
-    "ip": "192.168.1.2",
-    "latitude": 51.5074,
-    "longitude": -0.1278,
-    "type": "Trojan",
-    "country": "United Kingdom",
-    "region": "London",
-    "time": "2024-11-29T13:00:00Z",
-    "target": "Ruk-com TH"
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "Ay6Rl2YB-tjR-MxBNS7V",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "server01",
+        "program_name": "sshd",
+        "timestamp": "Dec  5 13:02:12"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "192.168.1.100",
+        "name": "server01.local",
+        "id": "045"
+      },
+      "data": {
+        "srcip": "185.72.65.22"
+      },
+      "manager": {
+        "name": "wazuh-manager-1"
+      },
+      "rule": {
+        "firedtimes": 150,
+        "mail": false,
+        "level": 5,
+        "description": "SSH Brute Force Attack",
+        "groups": [
+          "sshd",
+          " attack"
+        ],
+        "id": "100020"
+      },
+      "decoder": {
+        "parent": "sshd",
+        "name": "sshd"
+      },
+      "full_log": "Dec  5 13:02:12 server01 sshd[3544]: Failed password for root from 185.72.65.22 port 22 ssh2",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/auth.log",
+      "id": "1733383890.1637805963",
+      "GeoLocation": {
+        "city_name": "Chisinau",
+        "country_name": "Moldova",
+        "region_name": "Chisinau",
+        "location": {
+          "lon": 28.846,
+          "lat": 47.0105
+        }
+      },
+      "timestamp": "2024-12-05T13:02:12.939+0000"
+    },
+    "fields": {
+      "timestamp": [
+        "2024-12-05T13:02:12.939Z"
+      ]
+    },
+    "sort": [
+      1733383890939
+    ]
   },
   {
-    "id": "3",
-    "ip": "012.345.678.9",
-    "country": "South Korea",
-    "region": "Seoul",
-    "latitude": 37.5665,
-    "longitude": 126.9780,
-    "type": "DDos",
-    "time": "2024-11-29T14:00:00Z",
-    "target": "Ruk-com TH"
-  }
-  ,
-  {
-    "id": "4",
-    "ip": "203.0.113.33",
-    "country": "Argentina",
-    "region": "Buenos Aires",
-    "latitude": -34.6037,
-    "longitude": -58.3816,
-    "type": "Phishing",
-    "time": "2024-11-30T04:00:00Z",
-    "target": "Ruk-com AR"
-  }
-  ,
-  {
-    "id": "5",
-    "ip": "203.0.113.22",
-    "country": "Turkey",
-    "region": "Istanbul",
-    "latitude": 41.0082,
-    "longitude": 28.9784,
-    "type": "Trojan",
-    "time": "2024-11-30T02:00:00Z",
-    "target": "Ruk-com TR"
-  }
-  ,
-  {
-    "id": "6",
-    "ip": "192.0.2.12",
-    "country": "South Africa",
-    "region": "Johannesburg",
-    "latitude": -26.2041,
-    "longitude": 28.0473,
-    "type": "Phishing",
-    "time": "2024-11-30T01:00:00Z",
-    "target": "Ruk-com ZA"
-  }
-  ,
-  {
-    "id": "7",
-    "ip": "192.0.2.12",
-    "country": "South Africa",
-    "region": "Johannesburg",
-    "latitude": -26.2041,
-    "longitude": 28.0473,
-    "type": "Phishing",
-    "time": "2024-11-30T01:00:00Z",
-    "target": "Ruk-com ZA"
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "Bs9YlZZG-qeR-GXJFR6P",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "server02",
+        "program_name": "httpd",
+        "timestamp": "Dec  5 14:12:34"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "192.168.1.101",
+        "name": "server02.local",
+        "id": "046"
+      },
+      "data": {
+        "srcip": "140.175.66.80"
+      },
+      "manager": {
+        "name": "wazuh-manager-1"
+      },
+      "rule": {
+        "firedtimes": 231,
+        "mail": false,
+        "level": 6,
+        "description": "HTTP DoS Attack",
+        "groups": [
+          "httpd",
+          " attack"
+        ],
+        "id": "100030"
+      },
+      "decoder": {
+        "parent": "httpd",
+        "name": "httpd"
+      },
+      "full_log": "Dec  5 14:12:34 server02 httpd[1234]: DoS Attack detected from 140.175.66.80",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/httpd/access_log",
+      "id": "1733392340.1637807890",
+      "GeoLocation": {
+        "city_name": "Beijing",
+        "country_name": "China",
+        "region_name": "Beijing",
+        "location": {
+          "lon": 116.4074,
+          "lat": 39.9042
+        }
+      },
+      "timestamp": "2024-12-05T14:12:34.939+0000"
+    },
+    "fields": {
+      "timestamp": [
+        "2024-12-05T14:12:34.939Z"
+      ]
+    },
+    "sort": [
+      1733392340939
+    ]
   }
 ]
