@@ -7,6 +7,8 @@ function Classification() {
     "IPDB Block ip": 0,
     "SSH Brute Force Attack": 0,
     "HTTP DoS Attack": 0,
+    "Port Scan Detected": 0,
+    "Ping Flood Detected": 0,
     Unknown: 0,
   });
 
@@ -19,6 +21,8 @@ function Classification() {
             "IPDB Block ip": 0,
             "SSH Brute Force Attack": 0,
             "HTTP DoS Attack": 0,
+            "Port Scan Detected": 0,
+            "Ping Flood Detected": 0,
             Unknown: 0,
           };
 
@@ -62,6 +66,8 @@ function Classification() {
           <p>IPDB Block ip: {attackCounts["IPDB Block ip"]}</p>
           <p>SSH Brute Force Attack: {attackCounts["SSH Brute Force Attack"]}</p>
           <p>HTTP DoS Attack: {attackCounts["HTTP DoS Attack"]}</p>
+          <p>Port Scan Detected: {attackCounts["Port Scan Detected"]}</p>
+          <p>Ping Flood Detected: {attackCounts["Ping Flood Detected"]}</p>
           <p>Unknown: {attackCounts.Unknown}</p>
         </div>
       </div>

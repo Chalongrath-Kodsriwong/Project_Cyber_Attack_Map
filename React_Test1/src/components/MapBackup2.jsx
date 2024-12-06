@@ -28,14 +28,14 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    const width = 900;
-    const height = 100;
+    const width = 960;
+    const height = 500;
 
     const svg = d3
       .select(mapRef.current)
-      .attr("viewBox", `0 10 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMidYMid meet")
-      .attr("class", "map-svg"); // ใช้คลาส CSS ที่กำหนดไว้
+      .attr("viewBox", `0 40 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet");
+      
 
 
     const projection = d3
@@ -73,9 +73,9 @@ const Map = () => {
         .append("text")
         .attr("x", x + 10)
         .attr("y", y)
-        .attr("font-size", "8px")
-        .attr("fill", "orange")
-        .text("Server Th");
+        .attr("font-size", "12px")
+        .attr("fill", "black")
+        .text("You are here");
     }
 
     // แสดงตำแหน่งจาก attackers.json

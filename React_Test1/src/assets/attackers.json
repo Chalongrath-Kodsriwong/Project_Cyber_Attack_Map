@@ -29,10 +29,7 @@
         "mail": false,
         "level": 9,
         "description": "IPDB Block ip",
-        "groups": [
-          "kernel",
-          " ipdb"
-        ],
+        "groups": ["kernel", " ipdb"],
         "id": "100010"
       },
       "decoder": {
@@ -57,13 +54,9 @@
       "timestamp": "2024-12-05T05:34:50.939+0000"
     },
     "fields": {
-      "timestamp": [
-        "2024-12-05T05:34:50.939Z"
-      ]
+      "timestamp": ["2024-12-05T05:34:50.939Z"]
     },
-    "sort": [
-      1733376890939
-    ]
+    "sort": [1733376890939]
   },
   {
     "_index": "wazuh-alerts-4.x-2024.12.05",
@@ -95,10 +88,7 @@
         "mail": false,
         "level": 5,
         "description": "SSH Brute Force Attack",
-        "groups": [
-          "sshd",
-          " attack"
-        ],
+        "groups": ["sshd", " attack"],
         "id": "100020"
       },
       "decoder": {
@@ -123,13 +113,9 @@
       "timestamp": "2024-12-05T13:02:12.939+0000"
     },
     "fields": {
-      "timestamp": [
-        "2024-12-05T13:02:12.939Z"
-      ]
+      "timestamp": ["2024-12-05T13:02:12.939Z"]
     },
-    "sort": [
-      1733383890939
-    ]
+    "sort": [1733383890939]
   },
   {
     "_index": "wazuh-alerts-4.x-2024.12.05",
@@ -161,10 +147,7 @@
         "mail": false,
         "level": 6,
         "description": "HTTP DoS Attack",
-        "groups": [
-          "httpd",
-          " attack"
-        ],
+        "groups": ["httpd", " attack"],
         "id": "100030"
       },
       "decoder": {
@@ -189,12 +172,363 @@
       "timestamp": "2024-12-05T14:12:34.939+0000"
     },
     "fields": {
-      "timestamp": [
-        "2024-12-05T14:12:34.939Z"
-      ]
+      "timestamp": ["2024-12-05T14:12:34.939Z"]
     },
-    "sort": [
-      1733392340939
-    ]
+    "sort": [1733392340939]
+  },
+
+  {
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "Bs9YlZZG-qeR-GXJFR6P",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "th226",
+        "program_name": "kernel",
+        "timestamp": "Dec 5 17:00:00"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "103.86.51.226",
+        "name": "th226.ruk-com.in.th",
+        "id": "033"
+      },
+      "data": {
+        "srcip": "45.67.89.123"
+      },
+      "manager": {
+        "name": "wazuh-manager-1"
+      },
+      "rule": {
+        "firedtimes": 90,
+        "mail": false,
+        "level": 5,
+        "description": "Port Scan Detected",
+        "groups": ["kernel", "scan"],
+        "id": "100070"
+      },
+      "decoder": {
+        "parent": "kernel",
+        "name": "kernel"
+      },
+      "full_log": "Dec 5 17:00:00 th226 kernel: Detected port scan from 45.67.89.123",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/messages",
+      "id": "1733403600.1637814000",
+      "GeoLocation": {
+        "city_name": "London",
+        "country_name": "United Kingdom",
+        "region_name": "England",
+        "location": {
+          "lon": -0.1276,
+          "lat": 51.5074
+        }
+      },
+      "timestamp": "2024-12-05T17:00:00.000+0000"
+    },
+    "fields": {
+      "timestamp": ["2024-12-05T14:12:34.939Z"]
+    },
+    "sort": [1733392340939]
+  },
+  {
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "A1B2C3D4E5F6G7H8I9J0",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "th301",
+        "program_name": "kernel",
+        "timestamp": "Dec 5 18:15:25"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "203.45.67.89",
+        "name": "th301.ruk-com.in.th",
+        "id": "040"
+      },
+      "data": {
+        "srcip": "185.42.91.12"
+      },
+      "manager": {
+        "name": "wazuh-manager-1"
+      },
+      "rule": {
+        "firedtimes": 105,
+        "mail": false,
+        "level": 6,
+        "description": "Port Scan Detected",
+        "groups": ["kernel", "scan"],
+        "id": "100071"
+      },
+      "decoder": {
+        "parent": "kernel",
+        "name": "kernel"
+      },
+      "full_log": "Dec 5 18:15:25 th301 kernel: Detected port scan from 185.42.91.12",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/messages",
+      "id": "1733409325.1637821200",
+      "GeoLocation": {
+        "city_name": "Tokyo",
+        "country_name": "Japan",
+        "region_name": "Tokyo",
+        "location": {
+          "lon": 139.6917,
+          "lat": 35.6895
+        }
+      },
+      "timestamp": "2024-12-05T18:15:25.000+0000"
+    },
+    "fields": {
+      "timestamp": ["2024-12-05T18:15:25.000Z"]
+    },
+    "sort": [1733409325000]
+  },
+  {
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "K9L8M7N6O5P4Q3R2S1T0",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "server101",
+        "program_name": "sshd",
+        "timestamp": "Dec 5 18:30:45"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "192.168.10.101",
+        "name": "server101.local",
+        "id": "041"
+      },
+      "data": {
+        "srcip": "190.123.45.67"
+      },
+      "manager": {
+        "name": "wazuh-manager-1"
+      },
+      "rule": {
+        "firedtimes": 85,
+        "mail": true,
+        "level": 7,
+        "description": "SSH Brute Force Attempt",
+        "groups": ["sshd", "attack"],
+        "id": "100072"
+      },
+      "decoder": {
+        "parent": "sshd",
+        "name": "sshd"
+      },
+      "full_log": "Dec 5 18:30:45 server101 sshd[1234]: Multiple failed login attempts from 190.123.45.67",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/auth.log",
+      "id": "1733410245.1637822100",
+      "GeoLocation": {
+        "city_name": "New York",
+        "country_name": "United States",
+        "region_name": "New York",
+        "location": {
+          "lon": -74.006,
+          "lat": 40.7128
+        }
+      },
+      "timestamp": "2024-12-05T18:30:45.000+0000"
+    },
+    "fields": {
+      "timestamp": ["2024-12-05T18:30:45.000Z"]
+    },
+    "sort": [1733410245000]
+  },
+  {
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "U7V6W5X4Y3Z2A1B2C3D4",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "th302",
+        "program_name": "kernel",
+        "timestamp": "Dec 5 18:45:55"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "103.86.52.101",
+        "name": "th302.ruk-com.in.th",
+        "id": "042"
+      },
+      "data": {
+        "srcip": "172.16.254.1"
+      },
+      "manager": {
+        "name": "wazuh-manager-2"
+      },
+      "rule": {
+        "firedtimes": 75,
+        "mail": false,
+        "level": 5,
+        "description": "Ping Flood Detected",
+        "groups": ["kernel", "flood"],
+        "id": "100073"
+      },
+      "decoder": {
+        "parent": "kernel",
+        "name": "kernel"
+      },
+      "full_log": "Dec 5 18:45:55 th302 kernel: Ping flood detected from 172.16.254.1",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/messages",
+      "id": "1733411155.1637823000",
+      "GeoLocation": {
+        "city_name": "Sydney",
+        "country_name": "Australia",
+        "region_name": "New South Wales",
+        "location": {
+          "lon": 151.2093,
+          "lat": -33.8688
+        }
+      },
+      "timestamp": "2024-12-05T18:45:55.000+0000"
+    },
+    "fields": {
+      "timestamp": ["2024-12-05T18:45:55.000Z"]
+    },
+    "sort": [1733411155000]
+  },
+  {
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "U7V6W5X4Y3Z2A1B2C3D4",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "th302",
+        "program_name": "kernel",
+        "timestamp": "Dec 5 18:45:55"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "103.86.52.101",
+        "name": "th302.ruk-com.in.th",
+        "id": "042"
+      },
+      "data": {
+        "srcip": "172.16.254.1"
+      },
+      "manager": {
+        "name": "wazuh-manager-2"
+      },
+      "rule": {
+        "firedtimes": 75,
+        "mail": false,
+        "level": 5,
+        "description": "Ping Flood Detected",
+        "groups": ["kernel", "flood"],
+        "id": "100073"
+      },
+      "decoder": {
+        "parent": "kernel",
+        "name": "kernel"
+      },
+      "full_log": "Dec 5 18:45:55 th302 kernel: Ping flood detected from 172.16.254.1",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/messages",
+      "id": "1733411155.1637823000",
+      "GeoLocation": {
+        "city_name": "Sydney",
+        "country_name": "Australia",
+        "region_name": "New South Wales",
+        "location": {
+          "lon": 151.2093,
+          "lat": -33.8688
+        }
+      },
+      "timestamp": "2024-12-05T18:45:55.000+0000"
+    },
+    "fields": {
+      "timestamp": ["2024-12-05T18:45:55.000Z"]
+    },
+    "sort": [1733411155000]
+  },
+  {
+    "_index": "wazuh-alerts-4.x-2024.12.05",
+    "_id": "U7V6W5X4Y3Z2A1B2C3D4",
+    "_score": null,
+    "_source": {
+      "predecoder": {
+        "hostname": "th302",
+        "program_name": "kernel",
+        "timestamp": "Dec 5 18:45:55"
+      },
+      "cluster": {
+        "node": "master",
+        "name": "wazuh"
+      },
+      "agent": {
+        "ip": "103.86.52.101",
+        "name": "th302.ruk-com.in.th",
+        "id": "042"
+      },
+      "data": {
+        "srcip": "172.16.254.1"
+      },
+      "manager": {
+        "name": "wazuh-manager-2"
+      },
+      "rule": {
+        "firedtimes": 75,
+        "mail": false,
+        "level": 5,
+        "description": "Ping Flood Detected",
+        "groups": ["kernel", "flood"],
+        "id": "100073"
+      },
+      "decoder": {
+        "parent": "kernel",
+        "name": "kernel"
+      },
+      "full_log": "Dec 5 18:45:55 th302 kernel: Ping flood detected from 172.16.254.1",
+      "input": {
+        "type": "log"
+      },
+      "location": "/var/log/messages",
+      "id": "1733411155.1637823000",
+      "GeoLocation": {
+        "city_name": "Sydney",
+        "country_name": "Australia",
+        "region_name": "New South Wales",
+        "location": {
+          "lon": 151.2093,
+          "lat": -33.8688
+        }
+      },
+      "timestamp": "2024-12-05T18:45:55.000+0000"
+    },
+    "fields": {
+      "timestamp": ["2024-12-05T18:45:55.000Z"]
+    },
+    "sort": [1733411155000]
   }
 ]
