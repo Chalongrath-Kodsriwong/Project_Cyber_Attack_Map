@@ -50,7 +50,7 @@ function Data_Attack() {
             {attackers.map((attacker, index) => (
               <div key={index} className="row">
                 {/* <div className="fa id">{attacker._source?.agent?.id || 'N/A'}</div> */}
-                <div className="fa timestamp">
+                <div className="fa timestamps" >
                   {attacker._source?.predecoder?.timestamp || 'N/A'}
                 </div>
 

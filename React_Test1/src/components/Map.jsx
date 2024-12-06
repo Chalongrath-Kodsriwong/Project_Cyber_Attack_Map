@@ -7,6 +7,7 @@ import "./css/Map.css";
 
 const Map = () => {
   const mapRef = useRef();
+  const tooltipRef = useRef();
   const [userLocation, setUserLocation] = useState(null);
 
   // ใช้ Geolocation API เพื่อดึงตำแหน่งของผู้ใช้
@@ -28,15 +29,14 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    const width = 900;
-    const height = 100;
+    const width = 1000;
+    const height = 500;
 
     const svg = d3
       .select(mapRef.current)
-      .attr("viewBox", `0 10 ${width} ${height}`)
+      .attr("viewBox", `0 40 ${width} ${height}`)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .attr("class", "map-svg"); // ใช้คลาส CSS ที่กำหนดไว้
-
 
     const projection = d3
       .geoNaturalEarth1()
@@ -107,21 +107,28 @@ const Map = () => {
           .attr("r", 2)
           .attr("fill", color)
           .attr("stroke", "none")
-          .attr("stroke-width", 1.5);
-
-        // แสดงชื่อประเทศจาก GeoLocation
-        svg
-          .append("text")
-          .attr("x", x + 10)
-          .attr("y", y)
-          .attr("font-size", "8px")
-          .attr("fill", "black")
-          .text(GeoLocation.country_name || "Unknown");
+          .attr("stroke-width", 1.5)
+          .on("mouseover", function (event, d) {
+            d3.select(this).attr("r", 4);
+            tooltipRef.current.style.visibility = "visible";
+            tooltipRef.current.style.left = `${event.pageX + 10}px`;
+            tooltipRef.current.style.top = `${event.pageY - 10}px`;
+            tooltipRef.current.innerHTML = GeoLocation.country_name || "Unknown";
+          })
+          .on("mouseout", function () {
+            d3.select(this).attr("r", 2);
+            tooltipRef.current.style.visibility = "hidden";
+          });
       }
     });
   }, [userLocation]);
 
-  return <svg ref={mapRef}></svg>;
+  return (
+    <>
+      <svg ref={mapRef}></svg>
+      <div ref={tooltipRef} className="tooltip"></div>
+    </>
+  );
 };
 
 export default Map;

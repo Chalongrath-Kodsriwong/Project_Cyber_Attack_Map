@@ -11,9 +11,10 @@
   background: linear-gradient(90deg, transparent, transparent);
   position: relative;
   line-height: 1.5;
-  width: 12rem;
+  width: 8rem;
   cursor: pointer;
   /* outline: 1px solid red; */
+  background-color: #040c0ea6;
 }
 
 .Classification::after {
